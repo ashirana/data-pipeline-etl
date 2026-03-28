@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pipeline:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - .env
+    restart: "no"
+
+volumes:
+  postgres_data:
